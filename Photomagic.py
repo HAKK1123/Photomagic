@@ -27,12 +27,12 @@ st.markdown(
 )
 
 # Streamlitアプリのタイトルを設定
-st.title("PhotoMagic")
+st.title("ImageProcess")
 
 st.caption("写真をアップロードして、フィルタを適用し、クリエイティブな画像にしよう!")
 
 st.subheader("画像処理を瞬時に")
-st.caption("Photomagicは、画像処理を簡単かつインタラクティブに行えるウェブアプリケーションです。\n"
+st.caption("ImageProcessは、画像処理を簡単かつインタラクティブに行えるウェブアプリケーションです。\n"
         "このアプリを使用すると、アップロードした画像にさまざまな画像処理フィルタを適用でき、クリエイティブな画像にできます！")
 
 # 画像処理関数の定義
