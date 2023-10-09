@@ -29,6 +29,12 @@ st.markdown(
 # Streamlitアプリのタイトルを設定
 st.title("PhotoMagic")
 
+st.caption("写真をアップロードして、フィルタを適用し、クリエイティブな画像にしよう!")
+
+st.subheader("画像処理を瞬時に")
+st.caption("Photomagicは、画像処理を簡単かつインタラクティブに行えるウェブアプリケーションです。\n"
+        "このアプリを使用すると、アップロードした画像にさまざまな画像処理フィルタを適用でき、クリエイティブな画像にできます！")
+
 # 画像処理関数の定義
 # セピアフィルタを適用する関数
 def apply_sepia_filter(image):
@@ -79,11 +85,15 @@ def apply_crop(image, crop_area):
 
 # 画像の保存とダウンロードを行う関数
 def save_and_download_image(image, file_name):
-    buffered = io.BytesIO()
-    image.save(buffered, format="JPEG")
-    img_data = base64.b64encode(buffered.getvalue()).decode()  # Base64エンコード
-    href = f'<a href="data:application/octet-stream;base64,{img_data}" download="{file_name}">ダウンロード</a>'
-    st.markdown(href, unsafe_allow_html=True)
+    try:
+        buffered = io.BytesIO()
+        image.save(buffered, format="JPEG")
+        img_data = base64.b64encode(buffered.getvalue()).decode()  # Base64エンコード
+        href = f'<a href="data:application/octet-stream;base64,{img_data}" download="{file_name}">ダウンロード</a>'
+        st.markdown(href, unsafe_allow_html=True)
+    except Exception as e:
+        error_message = f"エラーが発生しました: {str(e)}"
+        st.error(error_message)
 
 # サイドバーに画像をアップロードするセクションを追加
 st.sidebar.header("画像をアップロード")
