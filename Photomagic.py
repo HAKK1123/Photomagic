@@ -54,6 +54,10 @@ def apply_edge_detection(image):
 
 # 色反転フィルタを適用する関数
 def apply_color_inversion(image):
+    # 画像のモードを確認し、適切なモードに変換
+    if image.mode not in ("1", "L"):
+        image = image.convert("L")
+    
     return ImageOps.invert(image)
 
 # 明るさ調整フィルタを適用する関数
@@ -110,9 +114,15 @@ if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="アップロードされた画像", use_column_width=True)
 
+    # RGBAモードの画像をRGBモードに変換
+    if image.mode == "RGBA":
+        image = image.convert("RGB")
+
     # オリジナル画像を保存
     original_image_path = os.path.join("original_images", uploaded_image.name)
-    image.save(original_image_path, format="JPEG")
+    with open(original_image_path, "wb") as f:
+        # 画像をRGBモードに変換して保存
+        image.save(f, format="JPEG")
 
     # サイドバーに画像処理オプションを追加
     st.sidebar.header("画像処理オプション")
@@ -146,7 +156,6 @@ if uploaded_image is not None:
             st.image(filtered_image, caption="フィルタ適用後の画像", use_column_width=True)
         except NameError:
             st.error("フィルタ適用後の画像が見つかりません。画像フィルタを選択して処理を行ってください。")
-
 
 # 新しい比較機能の追加
 if filtered_image is not None and st.button("オリジナル画像との比較"):
