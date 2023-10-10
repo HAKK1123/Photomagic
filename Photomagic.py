@@ -54,11 +54,13 @@ def apply_edge_detection(image):
 
 # 色反転フィルタを適用する関数
 def apply_color_inversion(image):
-    # 画像のモードを確認し、適切なモードに変換
-    if image.mode not in ("1", "L"):
-        image = image.convert("L")
+    # 画像をRGBモードに変換
+    image_rgb = image.convert("RGB")
     
-    return ImageOps.invert(image)
+    # 色反転処理を適用
+    inverted_image = ImageOps.invert(image_rgb)
+    
+    return inverted_image
 
 # 明るさ調整フィルタを適用する関数
 def apply_brightness_adjustment(image, brightness_factor):
