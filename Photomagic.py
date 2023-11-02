@@ -2,13 +2,10 @@ import streamlit as st
 from PIL import Image, ImageFilter, ImageOps, ImageEnhance
 import os
 import io
-import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 import base64
-
-# Matplotlibのバックエンドを設定
-plt.switch_backend('agg')
-
-# アイコンを設定
+# Streamlitアプリの設定
 st.set_page_config(
     page_title="PhotoMagic",
     page_icon=":camera:",
@@ -35,6 +32,8 @@ st.subheader("画像処理を瞬時に")
 st.caption("ImageProcessは、画像処理を簡単かつインタラクティブに行えるウェブアプリケーションです。\n"
         "このアプリを使用すると、アップロードした画像にさまざまな画像処理フィルタを適用でき、クリエイティブな画像にできます！")
 
+# 画像処理関数の定義
+# ここに画像処理関数を追加します。
 # 画像処理関数の定義
 # セピアフィルタを適用する関数
 def apply_sepia_filter(image):
@@ -76,6 +75,10 @@ def apply_mosaic_effect(image, block_size):
         (image.width, image.height),
         resample=Image.NEAREST
     )
+# 画像のピクセル数を取得する関数
+def get_image_size(image):
+    width, height = image.size
+    return width, height
 
 # 画像をクロップする関数
 def apply_crop(image, crop_area):
@@ -116,14 +119,18 @@ if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="アップロードされた画像", use_column_width=True)
 
-    # RGBAモードの画像をRGBモードに変換
-    if image.mode == "RGBA":
-        image = image.convert("RGB")
+    # 画像のピクセル数を取得
+    width, height = get_image_size(image)
+
+    # ピクセル数を表示
+    st.write(f"幅 (Width): {width} ピクセル")
+    st.write(f"高さ (Height): {height} ピクセル")
 
     # オリジナル画像を保存
     original_image_path = os.path.join("original_images", uploaded_image.name)
     with open(original_image_path, "wb") as f:
         # 画像をRGBモードに変換して保存
+        image = image.convert("RGB")
         image.save(f, format="JPEG")
 
     # サイドバーに画像処理オプションを追加
@@ -168,3 +175,5 @@ if filtered_image is not None and st.button("オリジナル画像との比較")
 # フィルタ適用後の画像を保存とダウンロード
 if filtered_image is not None and st.button("画像を保存"):
     save_and_download_image(filtered_image, "filtered_image.jpg")
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
