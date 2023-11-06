@@ -24,7 +24,7 @@ st.markdown(
 )
 
 # Streamlitアプリのタイトルを設定
-st.title("IMAGEPROCESS")
+st.title("IMAGE PROCESS")
 
 st.caption("写真をアップロードして、フィルタを適用し、クリエイティブな画像にしよう!")
 
