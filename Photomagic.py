@@ -33,8 +33,6 @@ st.caption("ImageProcessは、画像処理を簡単かつインタラクティ�
         "このアプリを使用すると、アップロードした画像にさまざまな画像処理フィルタを適用でき、クリエイティブな画像にできます！")
 
 # 画像処理関数の定義
-# ここに画像処理関数を追加します。
-# 画像処理関数の定義
 # セピアフィルタを適用する関数
 def apply_sepia_filter(image):
     return ImageOps.colorize(image.convert("L"), "#704214", "#C0A080")
