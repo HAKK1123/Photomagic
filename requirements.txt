@@ -2,3 +2,4 @@ Pillow==10.0.1
 numpy==1.26.0
 streamlit==1.27.2
 seaborn
+pandas
