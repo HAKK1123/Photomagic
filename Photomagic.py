@@ -5,6 +5,7 @@ import io
 import seaborn as sns
 import pandas as pd
 import base64
+
 # Streamlitアプリの設定
 st.set_page_config(
     page_title="PhotoMagic",
@@ -34,7 +35,6 @@ st.caption("ImageProcessは、画像処理を簡単かつインタラクティ�
 
 # 画像処理関数の定義
 # ここに画像処理関数を追加
-# 画像処理関数の定義
 # セピアフィルタを適用する関数
 def apply_sepia_filter(image):
     return ImageOps.colorize(image.convert("L"), "#704214", "#C0A080")
@@ -75,6 +75,12 @@ def apply_mosaic_effect(image, block_size):
         (image.width, image.height),
         resample=Image.NEAREST
     )
+
+# 彩度調整フィルタを適用する関数
+def adjust_saturation(image, saturation_factor):
+    enhancer = ImageEnhance.Color(image)
+    return enhancer.enhance(saturation_factor)
+
 # 画像のピクセル数を取得する関数
 def get_image_size(image):
     width, height = image.size
@@ -135,7 +141,7 @@ if uploaded_image is not None:
 
     # サイドバーに画像処理オプションを追加
     st.sidebar.header("画像処理オプション")
-    selected_filter = st.sidebar.selectbox("フィルタを選択", ["なし", "セピア", "モノクロ", "ぼかし", "エッジ検出", "色反転", "明るさ調整", "モザイク", "クロップ"])
+    selected_filter = st.sidebar.selectbox("フィルタを選択", ["なし", "セピア", "モノクロ", "ぼかし", "エッジ検出", "色反転", "明るさ調整", "モザイク", "クロップ", "彩度調整"])
 
     if selected_filter != "なし":
         st.sidebar.header("フィルタ適用")
@@ -158,6 +164,9 @@ if uploaded_image is not None:
         elif selected_filter == "クロップ":
             crop_area = st.sidebar.selectbox("クロップエリアを選択", ["上", "下", "左", "右"])
             filtered_image = apply_crop(image, crop_area)
+        elif selected_filter == "彩度調整":
+            saturation_factor = st.sidebar.slider("彩度調整", 0.0, 2.0, 1.0)
+            filtered_image = adjust_saturation(image, saturation_factor)
 
     if filtered_image is not None:
         try:
