@@ -3,3 +3,4 @@ numpy==1.26.0
 matplotlib==3.8.0
 streamlit==1.27.2
 seaborn==0.12.2
+opencv-python-headless
