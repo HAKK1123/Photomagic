@@ -1,4 +1,3 @@
-User
 import streamlit as st
 from PIL import Image, ImageFilter, ImageOps, ImageEnhance
 import os
